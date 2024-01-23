@@ -1,3 +1,1 @@
-FrontEnd : npm start
-Open another terminal 
-BackEnd : npm start
+Open FrontEnd and Backend in 2 different terminals using `npm start`
