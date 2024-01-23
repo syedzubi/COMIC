@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Comic } from "./types"; // adjust the path as necessary
+import { ComicDisplay } from "./components/ComicDisplay/ComicDisplay";
 
-function App() {
+const App = () => {
+  const [latestComic, setLatestComic] = useState<Comic | null>(null);
+
+  useEffect(() => {
+    fetch("/xkcd/latest")
+      .then((response) => response.json())
+      .then((data) => setLatestComic(data));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              latestComic ? (
+                <ComicDisplay comic={latestComic} />
+              ) : (
+                <p>Loading...</p>
+              )
+            }
+          />
+          <Route path="/comic/:comicNumber" element={<ComicDisplay />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -1,14 +1,16 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
+const fetch = require('node-fetch');
+
+app.use(cors())
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-const fetch = require('node-fetch');
 
 app.get('/xkcd/latest', async (req, res) => {
   const response = await fetch('https://xkcd.com/info.0.json');
